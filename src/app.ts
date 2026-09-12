@@ -15,5 +15,9 @@ export const createApp = () => {
         res.json({message: "hello from the rate-limited API."});
     })
 
+    app.get("/api/login",(req,res)=>{
+        res.json({message:"Login successful (demo endpoint)"});
+    });
+
     return app;
 }

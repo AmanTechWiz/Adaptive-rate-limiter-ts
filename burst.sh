@@ -1,15 +1,13 @@
 #!/bin/bash
-# Burst test - Proof 1
-# Usage: bash burst.sh [user-id] [count]
-USER_ID="${1:-user-1}"
-COUNT="${2:-10}"
+# Burst test — usage: bash burst.sh [api-key] [count] [endpoint]
+API_KEY="${1:-demo-free-key}"
+COUNT="${2:-25}"
+ENDPOINT="${3:-/api/data}"
 
-echo "Bursting $COUNT requests as '$USER_ID'..."
+echo "Bursting $COUNT requests with key '$API_KEY' → $ENDPOINT"
 for i in $(seq 1 "$COUNT"); do
   curl -s -o /dev/null -w "%{http_code} " \
-    -H "incoming-user-id: $USER_ID" \
-    -H "incoming-tier-id: Free" \
-    http://localhost:3000/api/data
+    -H "x-api-key: $API_KEY" \
+    "http://localhost:3000$ENDPOINT"
 done
 echo ""
-echo "Expected pattern: five 200 then all 429"
