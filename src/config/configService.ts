@@ -1,5 +1,5 @@
-import type { AccountTier, TierConfig, RateLimitStructure } from "../types";
-import { DEFAULT_TIER_CONFIGS } from "./default";
+import type { AccountTier, TierConfig, RateLimitStructure, AdaptiveConfig} from "../types";
+import { DEFAULT_TIER_CONFIGS, DEFAULT_ADAPTIVE_CONFIG } from "./default";
 
 const tierMap = new Map<AccountTier, TierConfig>();
 
@@ -35,3 +35,9 @@ export const getRuleAndKey = (
         ? { rule: override.rule, endpointKey: override.endpoint }
         : { rule: config.default, endpointKey: "default" };
 };
+
+let adaptiveConfig: AdaptiveConfig = { ...DEFAULT_ADAPTIVE_CONFIG };
+
+export function getAdaptiveConfig(): AdaptiveConfig {
+  return adaptiveConfig;
+}
