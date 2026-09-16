@@ -11,7 +11,7 @@ Distributed, tier-aware API rate limiter — atomic token buckets in Redis (Lua)
 | 0+1 | Express skeleton + in-memory token bucket | ✅ done |
 | 2 | Redis + Lua atomic buckets, fail-open | ✅ done |
 | 3 | API-key identity, tiers, per-endpoint rules | ✅ done |
-| 4 | Metrics + adaptive throttler | 🔜 next |
+| 4 | Metrics + adaptive throttler | 🚧 in progress (metrics collector done, throttler next) |
 | 5 | Admin dashboard (runtime config) | ⬜ planned |
 | 6 | Docker + CI | ⬜ planned |
 | 7 | k6 load tests + final README | ⬜ planned |
