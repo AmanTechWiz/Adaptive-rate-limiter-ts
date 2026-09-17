@@ -1,7 +1,8 @@
 {
-  "name": "building",
+  "name": "adaptive-rate-limiter-ts",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Distributed tier-aware API rate limiter (token bucket + Redis/Lua, adaptive throttling)",
+  "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
@@ -9,10 +10,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
-  "keywords": [],
+  "keywords": ["rate-limit", "redis", "express", "typescript"],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "express": "^5.2.1",
     "ioredis": "^6.0.0"
