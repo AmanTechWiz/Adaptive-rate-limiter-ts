@@ -1,6 +1,6 @@
 {
   "name": "adaptive-rate-limiter-ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Distributed tier-aware API rate limiter (token bucket + Redis/Lua, adaptive throttling)",
   "main": "dist/server.js",
   "scripts": {
