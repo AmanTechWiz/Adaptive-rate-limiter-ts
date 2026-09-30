@@ -3,15 +3,18 @@ import { resolveRequestUser } from "./identity";
 import { getRuleAndKey } from "../config/configService";
 import { runTokenBucketScript } from "../core/redis/script";
 import { applyAdaptiveScaling } from "../core/adaptiveThrottle";
+import { RequestUpdate } from "../core/metricsCollect";
 
 export const rateLimiterMiddleware = async (
     req: Request,
     res: Response,
     next: NextFunction
 ): Promise<void> => {
+    const start = Date.now();
     const user = resolveRequestUser(req);
 
     if (!user) {
+        RequestUpdate(false,false,false,Date.now()-start);
         res.status(401).json({ error: "Invalid API key" });
         return;
     }
@@ -29,6 +32,9 @@ export const rateLimiterMiddleware = async (
             Date.now()
         );
 
+        const latency = Date.now() - start;
+        RequestUpdate(!result.allowed,false,false,latency);
+
         res.set("Available_tokens", String(scaled.capacity));
         res.set("tokens_remaining", String(Math.max(0, result.remaining)));
         res.set(
@@ -44,6 +50,7 @@ export const rateLimiterMiddleware = async (
 
         next();
     } catch (err) {
+        RequestUpdate(false, false, true, Date.now() - start); //infra error!!
         console.error("Rate limiter unavailable — failing open:", err);
         next();
     }
