@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { resolveRequestUser } from "./identity";
 import { getRuleAndKey } from "../config/configService";
 import { runTokenBucketScript } from "../core/redis/script";
+import { applyAdaptiveScaling } from "../core/adaptiveThrottle";
 
 export const rateLimiterMiddleware = async (
     req: Request,
@@ -17,21 +18,22 @@ export const rateLimiterMiddleware = async (
 
     const endpoint = req.baseUrl + req.path;   // "/api + /data concatenated"
     const { rule, endpointKey } = getRuleAndKey(user.tier, endpoint);
+    const scaled = applyAdaptiveScaling(rule,user.tier);
     const key = `User:${user.userId}:${endpointKey}`;
 
     try {
         const result = await runTokenBucketScript(
             key,
-            rule.capacity,
-            rule.refillRate,
+            scaled.capacity,
+            scaled.refillRate,
             Date.now()
         );
 
-        res.set("Available_tokens", String(rule.capacity));
+        res.set("Available_tokens", String(scaled.capacity));
         res.set("tokens_remaining", String(Math.max(0, result.remaining)));
         res.set(
             "RateLimit_reset_time",
-            String(Math.max(0, Math.ceil((rule.capacity - result.remaining) / rule.refillRate)))
+            String(Math.max(0, Math.ceil((scaled.capacity - result.remaining) / scaled.refillRate)))
         );
 
         if (!result.allowed) {
