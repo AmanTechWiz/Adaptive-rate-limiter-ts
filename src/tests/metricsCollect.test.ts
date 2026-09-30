@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { RequestUpdate, collectMetrics } from "../core/metricsCollect";
+import { RequestUpdate, collectMetrics, getMetrics } from "../core/metricsCollect";
 
 describe("metricsCollect", () => {
     beforeEach(() => {
@@ -30,5 +30,22 @@ describe("metricsCollect", () => {
         expect(empty.totalRequests).toBe(0);
         expect(empty.avgLatency).toBe(0);
         expect(empty.errorRate).toBe(0);
+    });
+
+    it("getMetrics shows the in-progress window without resetting it", () => {
+        RequestUpdate(false, false, false, 200);
+
+        expect(getMetrics().totalRequests).toBe(1);
+        expect(getMetrics().avgLatency).toBe(200);
+        expect(getMetrics().totalRequests).toBe(1);
+    });
+
+    it("reports cpu and memory as percentages", () => {
+        const snap = collectMetrics();
+
+        expect(snap.cpuUsage).toBeGreaterThanOrEqual(0);
+        expect(snap.cpuUsage).toBeLessThanOrEqual(100);
+        expect(snap.memoryUsage).toBeGreaterThanOrEqual(0);
+        expect(snap.memoryUsage).toBeLessThanOrEqual(100);
     });
 });
