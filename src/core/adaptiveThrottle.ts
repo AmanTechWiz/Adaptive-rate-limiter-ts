@@ -14,7 +14,7 @@ export function getAdaptiveFactor():number{
 }
 
 export function setAdaptiveFactor (factor: number): void {
-    adaptiveFactor = Math.max(0, Math.min(1, factor));
+    adaptiveFactor = Math.round(Math.max(0, Math.min(1, factor)) * 100) / 100;
 };
 
 // Applied per request, before the Redis call
