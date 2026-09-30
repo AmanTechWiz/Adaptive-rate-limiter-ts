@@ -23,7 +23,7 @@ export const applyAdaptiveScaling = (
     tier: AccountTier
 ): RateLimitStructure => {
     const tierFloor = getTierConfig(tier)?.adaptiveMinFactor ?? 0.3;
-    const effective = Math.max(tierFloor, adaptiveFactor);
+    const effective = Math.max(tierFloor, adaptiveFactor); // we take maximum for best experience rather than pushing everyone to defualt.
 
     return {
         capacity: Math.max(1, Math.floor(rule.capacity * effective)),
@@ -31,6 +31,7 @@ export const applyAdaptiveScaling = (
     };
 };
 
+// Underatand current system health and deciding new adaptive factor.
 export const evaluateOnce = (
     metrics: SystemMetrics,
     config: AdaptiveConfig,
@@ -52,10 +53,10 @@ export const evaluateOnce = (
     if (healthy) {
         return Math.min(config.maxFactor, currentFactor + config.adjustmentStep);
     }
-    return currentFactor; // dead zone — hold steady, prevent oscillation
+    return currentFactor; // hold it steady
 };
 
-const evaluate =(): void => {
+function evaluate() : void {
     const config = getAdaptiveConfig();
     if (!config.enabled) return;
 
