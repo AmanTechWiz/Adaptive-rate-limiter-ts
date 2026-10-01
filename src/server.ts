@@ -9,5 +9,5 @@ startMetricsCollection(getAdaptiveConfig().evaluationIntervalMs);
 startAdaptiveThrottling();
 
 createApp().listen(PORT,()=>{
-    console.log(`Server is listening on https://localhost:${PORT}`);
+    console.log(`Server is listening on http://localhost:${PORT}`);
 })
