@@ -18,12 +18,12 @@ describe("identity + tiers (needs live Redis)", () => {
             throw new Error("Redis is not running — start it (lesson step 1)");
         }
         await clearBuckets();
-    });
+    }, 15000);
 
     afterAll(async () => {
         await clearBuckets();
         redis.disconnect();
-    });
+    }, 15000);
 
     it("rejects an unknown API key with 401", async () => {
         const res = await request(app).get("/api/data").set("x-api-key", "hacker-key");
