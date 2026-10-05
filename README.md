@@ -22,7 +22,7 @@ Distributed, tier-aware API rate limiter — atomic token buckets in Redis (Lua)
 - **Atomic checks:** buckets live in Redis hashes (`User:{userId}:{endpoint}`); the full read-refill-consume-write runs as one Lua script (`EVALSHA`), so concurrent requests across instances cannot double-spend.
 - **Identity:** requests carry `x-api-key` → resolved server-side to a user and tier (`Free` / `Plus` / `Max`). Client-claimed tiers are ignored. Missing key → anonymous (Free); unknown key → `401`.
 - **Per-endpoint rules:** stricter override for `/api/login`, with its own Redis bucket.
-- **Resilience:** if Redis is unreachable, the limiter fails open (availability over enforcement).
+- **Resilience:** if Redis is unreachable, the limiter fails open—requests pass through (availability over enforcement).
 
 ## Run it
 
