@@ -29,7 +29,7 @@ Distributed, tier-aware API rate limiter — atomic token buckets in Redis (Lua)
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm test           # unit + integration tests (needs Redis)
+npm test           # unit + integration tests (requires Redis)
 npm run typecheck
 ```
 
