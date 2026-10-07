@@ -43,7 +43,7 @@ Quick check:
 
 ```bash
 bash burst.sh demo-free-key 25            # 20 × 200, then 429s
-bash burst.sh demo-free-key 5 /api/login  # 3 × 200, then 429s (stricter)
+bash burst.sh demo-free-key 5 /api/login  # 3 × 200, then 429s (stricter limits)
 ```
 
 ## API surface
