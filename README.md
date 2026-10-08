@@ -39,7 +39,7 @@ Redis locally:
 docker run --name rl-redis -p 6379:6379 -d redis:7-alpine
 ```
 
-Quick check:
+Quick check (server must be running):
 
 ```bash
 bash burst.sh demo-free-key 25            # 20 × 200, then 429s
