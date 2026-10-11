@@ -34,7 +34,7 @@ export interface SystemMetrics {
     timestamp: number;
 }
 
-export interface AdaptiveConfig {
+export interface AdaptiveConfig {           
     enabled: boolean;
     cpuThresholdHigh: number;
     cpuThresholdLow: number;
@@ -45,3 +45,9 @@ export interface AdaptiveConfig {
     adjustmentStep: number;
     evaluationIntervalMs: number;
 }
+
+export interface adminControl{
+    default?:RateLimitStructure;
+    adaptiveMinFactor?: number;
+}
+
